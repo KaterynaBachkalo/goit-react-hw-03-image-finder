@@ -1,10 +1,10 @@
 import { StyledModal, StyledOverlay } from './Modal.styled';
 
-export const Modal = () => {
+export const Modal = ({ imageUrl, alt, onClick }) => {
   return (
-    <StyledOverlay>
+    <StyledOverlay onClick={onClick}>
       <StyledModal>
-        <img src="" alt="" />
+        <img src={imageUrl} alt={alt} />
       </StyledModal>
     </StyledOverlay>
   );

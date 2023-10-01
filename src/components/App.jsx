@@ -2,30 +2,31 @@ import { Component } from 'react';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Searchbar';
 import { Loader } from './Loader/Loader';
-import { Button } from './Button/Button';
-// import { Modal } from './Modal/Modal';
 
-import { fetchImages } from './services/api';
+import { findImagesByName } from './services/api';
 
 import { StyledApp } from './App.styled';
 
 export class App extends Component {
   state = {
     images: null,
+    searchedImageName: null,
     isLoading: false,
     error: null,
   };
 
-  componentDidMount() {
-    this.fetchAllImages();
+  componentDidUpdate(_, prevState) {
+    if (prevState.searchedImageName !== this.state.searchedImageName) {
+      this.fetchImagesByName();
+    }
   }
 
-  fetchAllImages = async () => {
+  fetchImagesByName = async () => {
     try {
       this.setState({ isLoading: true });
-      const images = await fetchImages();
+      const response = await findImagesByName(this.state.searchedImageName);
 
-      this.setState({ images: images });
+      this.setState({ images: response.hits });
     } catch (error) {
       this.setState({ error: error.message });
     } finally {
@@ -33,14 +34,33 @@ export class App extends Component {
     }
   };
 
+  handleSearchSubmit = event => {
+    event.preventDefault();
+
+    const searchedImageName =
+      event.currentTarget.elements.searchedImageName.value;
+
+    this.setState({
+      searchedImageName: searchedImageName,
+    });
+
+    event.currentTarget.reset();
+  };
+
+  handleClick = event => {
+    console.log(event);
+  };
+
   render() {
+    const showImages =
+      Array.isArray(this.state.images) && this.state.images.length;
+
     return (
       <StyledApp>
-        <Searchbar />
-        <ImageGallery images={this.state.images} />
-        <Loader />
-        <Button />
-        {/* <Modal></Modal> */}
+        <Searchbar onSubmit={this.handleSearchSubmit} />
+        {showImages && <ImageGallery images={this.state.images} />}
+
+        {this.state.isLoading && <Loader />}
       </StyledApp>
     );
   }

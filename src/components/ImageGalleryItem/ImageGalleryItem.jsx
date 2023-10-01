@@ -1,17 +1,9 @@
 import { StyledImageGalleryItem } from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ images }) => {
-  const showImages = Array.isArray(images) && images.length;
-  console.log(images);
-
-  showImages ?? images.map(image => console.log(image.hits));
-
+export const ImageGalleryItem = ({ id, src, alt, onClick }) => {
   return (
     <StyledImageGalleryItem>
-      {showImages ??
-        images.map(({ hits: { id, webformatURL, largeImageURL } }) => (
-          <img src={webformatURL} alt="" className="image" id={id} />
-        ))}
+      <img src={src} alt={alt} className="image" id={id} onClick={onClick} />
     </StyledImageGalleryItem>
   );
 };
