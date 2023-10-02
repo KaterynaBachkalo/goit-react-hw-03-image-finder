@@ -1,4 +1,4 @@
-import { StyledSearchbar } from './Searchbar.styled';
+import { StyledSearchbar, StyledInput } from './Searchbar.styled';
 
 export const Searchbar = ({ onSubmit }) => {
   return (
@@ -8,7 +8,7 @@ export const Searchbar = ({ onSubmit }) => {
           <span className="button-label">Search</span>
         </button>
 
-        <input
+        <StyledInput
           className="input"
           name="searchedImageName"
           type="text"

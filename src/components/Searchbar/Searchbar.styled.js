@@ -20,12 +20,12 @@ export const StyledSearchbar = styled.header`
 
   .form {
     display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-    background-color: #fff;
-    border-radius: 3px;
-    overflow: hidden;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 3px;
+  overflow: hidden;
   }
 
   .button {
@@ -33,7 +33,7 @@ export const StyledSearchbar = styled.header`
     width: 48px;
     height: 48px;
     border: 0;
-    background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
+    background-image: url('https://cdn1.iconfinder.com/data/icons/ionicons-fill-vol-2/512/search-512.png');
     background-size: 40%;
     background-repeat: no-repeat;
     background-position: center;
@@ -41,7 +41,6 @@ export const StyledSearchbar = styled.header`
     transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     outline: none;
-  }
 
   .button:hover {
     opacity: 1;
@@ -58,19 +57,19 @@ export const StyledSearchbar = styled.header`
     clip-path: inset(50%);
     border: 0;
   }
+`;
 
-  .input {
-    display: inline-block;
-    width: 100%;
-    font: inherit;
-    font-size: 20px;
-    border: none;
-    outline: none;
-    padding-left: 4px;
-    padding-right: 4px;
-  }
+export const StyledInput = styled.input`
+  display: inline-block;
+  width: 100%;
+  font: inherit;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  padding-left: 4px;
+  padding-right: 4px;
 
-  .input::placeholder {
+  &::placeholder {
     font: inherit;
     font-size: 18px;
   }

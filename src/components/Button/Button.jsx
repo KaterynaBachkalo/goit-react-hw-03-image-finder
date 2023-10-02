@@ -1,11 +1,9 @@
 import { StyledButton } from './Button.styled';
 
-export const Button = () => {
+export const Button = ({ onClick }) => {
   return (
-    <StyledButton>
-      <button type="button" className="button">
-        Load more
-      </button>
+    <StyledButton type="button" onClick={onClick}>
+      Load more
     </StyledButton>
   );
 };
