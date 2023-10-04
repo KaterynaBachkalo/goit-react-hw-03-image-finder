@@ -6,9 +6,7 @@ import { StyledApp } from './App.styled';
 
 export class App extends Component {
   state = {
-    searchedImageName: null,
-    currentPage: 1,
-    error: null,
+    searchedImageName: '',
   };
 
   handleSearchSubmit = event => {
@@ -29,10 +27,7 @@ export class App extends Component {
       <StyledApp>
         <Searchbar onSubmit={this.handleSearchSubmit} />
 
-        <ImageGallery
-          searchedImageName={this.state.searchedImageName}
-          currentPage={this.state.currentPage}
-        />
+        <ImageGallery searchedImageName={this.state.searchedImageName} />
       </StyledApp>
     );
   }
