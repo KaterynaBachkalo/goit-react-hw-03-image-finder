@@ -9,7 +9,6 @@ import { Loader } from 'components/Loader/Loader';
 export class ImageGallery extends Component {
   state = {
     images: null,
-    searchedImageName: '',
     totalImages: 500,
     totalImagesPerPage: null,
     isLoading: false,
@@ -24,13 +23,21 @@ export class ImageGallery extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate');
-    if (
-      (prevProps.searchedImageName !== this.props.searchedImageName &&
-        this.props.searchedImageName) ||
-      prevState.currentPage !== this.state.currentPage
-    ) {
-      console.log('fetch');
+    if (prevProps.searchedImageName !== this.props.searchedImageName) {
+      this.setState({
+        images: null,
+        currentPage: 1,
+        totalImagesPerPage: null,
+      });
+      if (this.state.currentPage === 1) {
+        this.fetchImagesByName(
+          this.props.searchedImageName,
+          this.state.currentPage
+        );
+      }
+    }
+
+    if (prevState.currentPage !== this.state.currentPage) {
       this.fetchImagesByName(
         this.props.searchedImageName,
         this.state.currentPage
@@ -49,22 +56,23 @@ export class ImageGallery extends Component {
       this.setState({ isLoading: true });
 
       const response = await findImagesByName(ImageName, page);
-      console.log(response.total);
 
-      if (response.total === 0) {
-        this.setState({
-          images: null,
-          errorMessage: 'Sorry, there are no images...',
-        });
-      } else {
+      if (response.total !== 0) {
         this.setState(prevState => ({
-          images: Array.isArray(prevState.images)
-            ? [...prevState.images, ...response.hits]
-            : response.hits,
+          images:
+            prevState.currentPage !== 1
+              ? [...prevState.images, ...response.hits]
+              : response.hits,
           errorMessage: null,
           totalImagesPerPage:
             prevState.totalImagesPerPage + response.hits.length,
         }));
+      } else {
+        this.setState({
+          images: null,
+          errorMessage: 'Sorry, there are no images...',
+          currentPage: 1,
+        });
       }
     } catch (error) {
       this.setState({ error: error.message });
@@ -179,9 +187,10 @@ export class ImageGallery extends Component {
             <p>{this.state.errorMessage}</p>
           </div>
         )}
-        <StyledImageGallery>
-          {images &&
-            images.map(({ id, webformatURL, largeImageURL, tags }) => (
+
+        {images && (
+          <StyledImageGallery>
+            {images.map(({ id, webformatURL, largeImageURL, tags }) => (
               <ImageGalleryItem
                 key={id}
                 id={id}
@@ -190,7 +199,8 @@ export class ImageGallery extends Component {
                 onOpenModal={() => this.onOpenModal(largeImageURL, tags)}
               />
             ))}
-        </StyledImageGallery>
+          </StyledImageGallery>
+        )}
 
         {images && totalImagesPerPage <= totalImages && !isLoading && (
           <Button onClick={this.onLoadMore} />

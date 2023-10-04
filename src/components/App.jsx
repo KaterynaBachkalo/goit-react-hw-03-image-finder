@@ -9,23 +9,29 @@ export class App extends Component {
     searchedImageName: '',
   };
 
-  handleSearchSubmit = event => {
-    event.preventDefault();
-
-    const searchedImageName =
-      event.currentTarget.elements.searchedImageName.value;
-
+  handleSearchSubmit = searchedImageName => {
     this.setState({
       searchedImageName: searchedImageName,
     });
-
-    event.currentTarget.reset();
   };
+
+  // handleSearchSubmit = event => {
+  //   event.preventDefault();
+
+  //   const searchedImageName =
+  //     event.currentTarget.elements.searchedImageName.value;
+
+  //   this.setState({
+  //     searchedImageName: searchedImageName,
+  //   });
+
+  //   event.currentTarget.reset();
+  // };
 
   render() {
     return (
       <StyledApp>
-        <Searchbar onSubmit={this.handleSearchSubmit} />
+        <Searchbar handleSearchSubmit={this.handleSearchSubmit} />
 
         <ImageGallery searchedImageName={this.state.searchedImageName} />
       </StyledApp>
